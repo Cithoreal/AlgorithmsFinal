@@ -83,6 +83,14 @@ public class RockPaperScissorsGame extends JFrame {
         add(computerScoreLabel);
         add(resultLabel);
         setVisible(true);
+        metaChoices[0] = 0;
+        metaChoices[1] = 0;
+        metaChoices[2] = 0;
+        metaChoices[3] = 0;
+        allChoices[0] = "";
+        allChoices[1] = "";
+        allChoices[2] = "";
+        allChoices[3] = "";
     }
     private String findPattern(int minLength)       //  this.playerMoveHistory is the data from our game
     {                                               //  minLength is the min size of our pattern
@@ -166,10 +174,24 @@ public class RockPaperScissorsGame extends JFrame {
     private String pickBestPatternStartLength()     //  Decides which base length to use.
     {                                               //  A larger base length is more effective at picking longer patterns.
                                                     //  Very nice to have since player may not use the same short patterns again and again.
+
+        if (playerMoveHistory.length() < 4)
+        {
+            return findPattern(0);
+        }
+        if (playerMoveHistory.length() >= 6)
+        {
+            allChoices[2] = findPattern(5);
+        }
+        if (playerMoveHistory.length() >= 9)
+        {
+            allChoices[3] = findPattern(8);
+        }
         allChoices[0] = findPattern(0);
         allChoices[1] = findPattern(3);
-        allChoices[2] = findPattern(5);
-        allChoices[3] = findPattern(8);
+
+
+
         int highestScore =0 ;
         int bestIndex = 0;
         int index = 0;
@@ -184,7 +206,7 @@ public class RockPaperScissorsGame extends JFrame {
             index++;
         }
 
-    return allChoices[bestIndex];
+        return allChoices[bestIndex];
 
     }
 
@@ -204,15 +226,19 @@ public class RockPaperScissorsGame extends JFrame {
             }
         } else if (result.equalsIgnoreCase("Computer wins!"))
         {
-            for (int index = 0; index < metaChoices.length; index++) {
-                if (allChoices[index].equals(computerChoice)) {
+            for (int index = 0; index < metaChoices.length; index++)
+            {
+                if (allChoices[index].equals(computerChoice))
+                {
                     metaChoices[index]++;
-                } else {
+                } else
+                {
                     metaChoices[index]--;
                 }
             }
 
         }
+
     }
     private void removeOldHistory(int purgeLength)  //  "purgeLength"
     {                                               //      length of old data which will be removed.
